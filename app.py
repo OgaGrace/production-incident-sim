@@ -18,9 +18,17 @@ def slow():
 
 @app.route("/error")
 def error():
-    if os.getenv("FAIL_MODE") == "true":
+    fail_mode = os.getenv("FAIL_MODE")
+    print(f"FAIL_MODE value: {fail_mode}")
+
+    if fail_mode == "true":
         raise Exception("Simulated production failure")
-    return jsonify(message="No errors detected")
+
+    return jsonify(
+        message="No errors detected",
+        fail_mode=fail_mode
+    )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
