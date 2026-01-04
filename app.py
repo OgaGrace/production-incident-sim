@@ -21,7 +21,7 @@ def error():
     fail_mode = os.getenv("FAIL_MODE")
     print(f"FAIL_MODE value: {fail_mode}")
 
-    if fail_mode == "true":
+    if fail_mode and fail_mode.strip().lower() == "true":
         raise Exception("Simulated production failure")
 
     return jsonify(
