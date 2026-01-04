@@ -1,8 +1,25 @@
+import time
+from flask import request
 from flask import Flask, jsonify
 import os
 import time
 
 app = Flask(__name__)
+
+@app.before_request
+def start_timer():
+    request.start_time = time.time()
+
+@app.after_request
+def log_request(response):
+    duration = time.time() - request.start_time
+    print(
+        f"REQUEST {request.method} {request.path} "
+        f"STATUS {response.status_code} "
+        f"DURATION {round(duration, 3)}s"
+    )
+    return response
+
 
 @app.route("/")
 def health():
