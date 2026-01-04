@@ -19,7 +19,7 @@ def slow():
 @app.route("/error")
 def error():
     fail_mode = os.getenv("FAIL_MODE")
-    print(f"FAIL_MODE value at runtime: {fail_mode}")
+    print(f"FAIL_MODE value: {fail_mode}")
 
     if fail_mode == "true":
         raise Exception("Simulated production failure")
