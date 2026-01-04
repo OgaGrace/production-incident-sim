@@ -10,15 +10,16 @@ app = Flask(__name__)
 def start_timer():
     request.start_time = time.time()
 
-@app.after_request
-def log_request(response):
-    duration = time.time() - request.start_time
-    print(
-        f"REQUEST {request.method} {request.path} "
-        f"STATUS {response.status_code} "
-        f"DURATION {round(duration, 3)}s"
-    )
-    return response
+@app.teardown_request
+def log_request(error=None):
+    if hasattr(request, "start_time"):
+        duration = time.time() - request.start_time
+        print(
+            f"REQUEST {request.method} {request.path} "
+            f"STATUS {'500' if error else '200'} "
+            f"DURATION {round(duration, 3)}s"
+        )
+
 
 
 @app.route("/")
