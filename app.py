@@ -1,3 +1,13 @@
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s"
+)
+
+logger = logging.getLogger(__name__)
+
+
 import time
 from flask import request
 from flask import Flask, jsonify
@@ -14,7 +24,7 @@ def start_timer():
 def log_request(error=None):
     if hasattr(request, "start_time"):
         duration = time.time() - request.start_time
-        print(
+        logger.info(
             f"REQUEST {request.method} {request.path} "
             f"STATUS {'500' if error else '200'} "
             f"DURATION {round(duration, 3)}s"
